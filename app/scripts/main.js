@@ -7,7 +7,8 @@ function renderTemplate(templateID, location, dataModel) {
 
 $.ajax({
     url: "https://api.github.com/issues",
-    type: 'get'})
+    type: 'get',
+    data: {state: 'all'}})
     .done(function(data){
         _.each(data, function(datum) {
             var issuesModel = {
