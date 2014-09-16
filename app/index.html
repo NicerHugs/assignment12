@@ -30,19 +30,24 @@
     <section class="issues-list-div" id="issues-list">
       <ul class="issues-list">
         <script type="text/template" id="templates-issues-list">
-        <a href="#" class="issue-link">
-            <li class="issue"><%= title %></li>
-        </a>
+        <li class="issue">
+            <a href="#" class="issue-link" id="<%= commentsURL %>"><h2><%= title %></h2><p><%= description %></p></a>
+        </li>
         </script>
       </ul>
     </section> <!--issues list -->
 
 
-    <section class="issue-details" id="issue-details">
-        <script type="text/template" id="templates-issue-detail">
+    <section class="issue-details">
+        <script type="text/template" id="templates-issue-details">
             <h2><%= title %></h2>
-
-        </script>
+            <p><%= description %></p>
+            <ul class="issue-comments">
+            </script>
+            <script type=text/template id="templates-issue-comments">
+                <li><%= comment %></li>
+            </script>
+            </ul>
     </section><!--issue details -->
   </main>
 
