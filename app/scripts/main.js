@@ -8,12 +8,31 @@ function renderTemplate(templateID, location, dataModel) {
 $.ajax({
     url: "https://api.github.com/issues",
     type: 'get',
-    data: {state: 'all'}})
+    // data: {state: 'all'}
+    })
     .done(function(data){
-        _.each(data, function(datum) {
-            var issuesModel = {
-                title: datum.title
+        var issuesModel = _.map(data, function(datum) {
+            return {
+                    title: datum.title,
+                    details: datum.body,
+                    commentsURL: datum.comments_url
             };
-            renderTemplate('#templates-issues-list', '.issues-list', issuesModel);
+        });
+        _.each(issuesModel, function(issueModel) {
+            renderTemplate('#templates-issues-list', '.issues-list', issueModel);
+            commentsGetRequest(issueModel.commentsURL);
         });
     });
+
+
+function commentsGetRequest(url) {
+
+$.ajax({
+    url: url,
+    type: 'get',
+    // data: {state: 'all'}
+    })
+    .done(function(data){
+        console.log(data);
+    });
+}
