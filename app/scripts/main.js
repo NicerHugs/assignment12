@@ -1,3 +1,5 @@
+var issuesModel = {};
+
 function renderTemplate(templateID, location, dataModel) {
     var templateString = $(templateID).text();
     var templateFunction = _.template(templateString);
@@ -5,16 +7,19 @@ function renderTemplate(templateID, location, dataModel) {
     $(location).append(renderedTemplate);
 }
 
-$.ajax({
+setInterval(callIssuesData, 1000);
+
+function callIssuesData() {
+  $.ajax({
     url: "https://api.github.com/issues",
-    type: 'get',
-    // data: {state: 'all'}
+    type: 'get'
     })
     .done(function(data){
-        buildIssuesList(data);
+        renderIssuesList(data);
     });
+}
 
-function buildIssuesList(data) {
+function renderIssuesList(data) {
     var issuesModel = _.map(data, function(datum) {
         return {
                 title: datum.title,
@@ -30,6 +35,7 @@ function buildIssuesList(data) {
 
 $(document).on('click', '.issue-link', function(e) {
     e.preventDefault();
+    $('.issue-details').empty();
     var url = $(this).attr('id');
     var title = $('h2', this).text();
     var description = $('p', this).text();
@@ -37,7 +43,8 @@ $(document).on('click', '.issue-link', function(e) {
         url: url,
         type: 'get',
     })
-    .done(function(data){
+    .done(function buildDetailsSection(data){
+
         var issueDetailsModel = {
             title: title,
             description: description

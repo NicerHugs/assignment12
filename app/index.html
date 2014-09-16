@@ -27,32 +27,34 @@
   <body>
 
   <main>
+    
     <section class="issues-list-div" id="issues-list">
       <ul class="issues-list">
-        <script type="text/template" id="templates-issues-list">
-        <li class="issue">
-            <a href="#" class="issue-link" id="<%= commentsURL %>"><h2><%= title %></h2><p><%= description %></p></a>
-        </li>
-        </script>
       </ul>
     </section> <!--issues list -->
 
 
     <section class="issue-details">
-        <script type="text/template" id="templates-issue-details">
-            <h2><%= title %></h2>
-            <p><%= description %></p>
-            <ul class="issue-comments">
-            </script>
-            <script type=text/template id="templates-issue-comments">
-                <li><%= comment %></li>
-            </script>
-            </ul>
     </section><!--issue details -->
+
   </main>
 
+<script type="text/template" id="templates-issues-list">
+    <li class="issue">
+        <a href="#" class="issue-link" id="<%= commentsURL %>"><h2><%= title %></h2><p><%= description %></p></a>
+    </li>
+</script>
 
+<script type="text/template" id="templates-issue-details">
+    <h2><%= title %></h2>
+    <p><%= description %></p>
+    <ul class="issue-comments">
+    </ul>
+</script>
 
+<script type=text/template id="templates-issue-comments">
+    <li><%= comment %></li>
+</script>
 
 
     <!-- build:js scripts/vendor.js -->
