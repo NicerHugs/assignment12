@@ -1,4 +1,4 @@
-var issuesModel = {};
+var issuesModel;
 
 function renderTemplate(templateID, location, dataModel) {
     var templateString = $(templateID).text();
@@ -7,7 +7,7 @@ function renderTemplate(templateID, location, dataModel) {
     $(location).append(renderedTemplate);
 }
 
-setInterval(callIssuesData, 1000);
+setInterval(callIssuesData, 100000);
 
 function callIssuesData() {
   $.ajax({
@@ -20,12 +20,13 @@ function callIssuesData() {
 }
 
 function renderIssuesList(data) {
-    var issuesModel = _.map(data, function(datum) {
-        return {
+    issuesModel = [];
+    _.each(data, function(datum) {
+        issuesModel.push({
                 title: datum.title,
                 description: datum.body,
                 commentsURL: datum.comments_url
-        };
+        });
     });
     $('.issue').remove();
     _.each(issuesModel, function(issueModel) {
@@ -33,30 +34,37 @@ function renderIssuesList(data) {
     });
 }
 
+function buildDetailsSection(data){
+    var commentsModel = _.map(data, function(datum) {
+        return {
+          comment: datum.body
+        };
+    });
+    $('.comment').remove();
+    _.each(commentsModel, function(commentModel) {
+        renderTemplate('#templates-issue-comments', '.issue-comments', commentModel);
+    });
+}
+
+var commentsIntervalID;
+
 $(document).on('click', '.issue-link', function(e) {
+    clearInterval(commentsIntervalID);
     e.preventDefault();
     $('.issue-details').empty();
     var url = $(this).attr('id');
-    var title = $('h2', this).text();
-    var description = $('p', this).text();
+    renderTemplate('#templates-issue-details', '.issue-details', _.findWhere(issuesModel, {commentsURL: url}));
+    // var title = $('h2', this).text();
+    // var description = $('p', this).text();
     $.ajax({
         url: url,
-        type: 'get',
+        type: 'get'
     })
-    .done(function buildDetailsSection(data){
-
-        var issueDetailsModel = {
-            title: title,
-            description: description
-        };
-        renderTemplate('#templates-issue-details', '.issue-details', issueDetailsModel);
-        var commentsModel = _.map(data, function(datum) {
-            return {
-              comment: datum.body
-            };
-        });
-        _.each(commentsModel, function(commentModel) {
-            renderTemplate('#templates-issue-comments', '.issue-comments', commentModel);
-        });
+    // .done(buildDetailsSection)
+    .done(function(data) {
+        buildDetailsSection(data);
+        commentsIntervalID = setInterval(function(){
+            buildDetailsSection(data);
+        }, 100000);
     });
 });
