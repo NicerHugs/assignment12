@@ -18,7 +18,52 @@
   </head>
   <body>
 
+  <main>
 
+    <header>
+      <h1>GitHub issues</h1>
+    </header>
+
+    <section class="issues-list-section" id="issues-list">
+      <h2>Issues</h2>
+      <ul class="issues-list">
+      </ul>
+    </section> <!--issues list -->
+
+
+    <section class="issue-details-section">
+      <h2>Issue Details</h2>
+      <div class="issue-details">
+      </div>
+
+    </section><!--issue details -->
+
+  </main>
+
+<script type="text/template" id="templates-issues-list">
+    <li class="issue">
+        <a href="#" class="issue-link" id="<%= commentsURL %>"><h3><%= title %></h3></a>
+    </li>
+</script>
+
+<script type="text/template" id="templates-issue-details">
+    <h3><%= title %></h3>
+    <p><%= description %></p>
+    <h4>Comments on this issue:</h4>
+    <ul class="issue-comments">
+    </ul>
+    <div class="update-issues">
+      <form class="comments-form" name="<%= url %>">
+        <textarea class="comment-box" type="text" placeholder="Make a comment..."></textarea>
+        <button class="comment-button">Comment</button>
+        <button class="close-button">Comment and close</button>
+      </form>
+    </div>
+</script>
+
+<script type=text/template id="templates-issue-comments">
+    <li class="comment"><%= comment %></li>
+</script>
 
 
     <script src="scripts/vendor.js"></script>
