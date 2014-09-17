@@ -4,14 +4,39 @@
 
 // Custom Styles
 
-
+* {
+  box-sizing: border-box;
+  vertical-align: top;
+}
 
 body {
   background: #fafafa;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #333;
+  margin: 0 auto;
+  padding: 0;
+  width: 800px;
 }
 
-.issue-link p {
-  display: none;
+h1,
+h2 {
+  text-align: center;
+}
+
+
+.issues-list-section {
+  display: inline-block;
+  width: 395px;
+  margin: 0;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+}
+
+.issue-details-section {
+  display: inline-block;
+  margin: 0;
+  width: 400px;
 }

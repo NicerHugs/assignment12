@@ -7,6 +7,7 @@ function renderTemplate(templateID, location, dataModel) {
     $(location).append(renderedTemplate);
 }
 
+callIssuesData();
 setInterval(callIssuesData, 100000);
 
 function callIssuesData() {
@@ -47,24 +48,42 @@ function buildDetailsSection(data){
 }
 
 var commentsIntervalID;
+var url;
 
 $(document).on('click', '.issue-link', function(e) {
     clearInterval(commentsIntervalID);
     e.preventDefault();
     $('.issue-details').empty();
-    var url = $(this).attr('id');
+    url = $(this).attr('id');
+    makeActive('.comments-form');
+    $();
     renderTemplate('#templates-issue-details', '.issue-details', _.findWhere(issuesModel, {commentsURL: url}));
-    // var title = $('h2', this).text();
-    // var description = $('p', this).text();
     $.ajax({
         url: url,
         type: 'get'
     })
-    // .done(buildDetailsSection)
     .done(function(data) {
         buildDetailsSection(data);
         commentsIntervalID = setInterval(function(){
             buildDetailsSection(data);
         }, 100000);
     });
+});
+
+function makeActive(what) {
+    $(what).addClass('active');
+}
+
+$(document).on('click', '.comment-button, .close-button', function(e) {
+    e.preventDefault();
+    var comment = {"body": $('textarea').val()};
+    $('textarea').val(" ");
+    var data = JSON.stringify(comment);
+    $.ajax({
+        type: 'post',
+        dataType: "json",
+        url: url,
+        data: data
+    });
+    return comment;
 });
