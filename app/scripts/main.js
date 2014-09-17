@@ -85,5 +85,17 @@ $(document).on('click', '.comment-button, .close-button', function(e) {
         url: url,
         data: data
     });
-    return comment;
+});
+
+$(document).on('click', '.close-button', function(e) {
+    e.preventDefault();
+    var closeURL = url.slice(0, url.length - 9);
+    var close = {"state": "closed"};
+    var data = JSON.stringify(close);
+    $.ajax({
+        type: 'patch',
+        dataType: "json",
+        url: closeURL,
+        data: data
+    });
 });
