@@ -12,7 +12,7 @@ setInterval(callIssuesData, 100000);
 
 function callIssuesData() {
   $.ajax({
-    url: "https://api.github.com/issues",
+    url: "//api.github.com/issues",
     type: 'get'
     })
     .done(function(data){
